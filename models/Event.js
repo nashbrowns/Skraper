@@ -18,9 +18,13 @@ var EventSchema = new Schema({
   link: {
     type: String,
     required: true
-  },
+  },    
   img: {
     type: String
+  },
+  note: {
+    type: Schema.Types.ObjectId,
+    ref: "Note"
   }
 });
 
