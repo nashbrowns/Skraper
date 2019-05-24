@@ -8,11 +8,13 @@ module.exports = function (app) {
     // A GET route for scraping the pdxpipeline website
     app.get("/scrapePipe", function (req, res) {
         // First, we grab the body of the html with axios
+
+       let eventArr = [];
+
         axios.get("https://www.pdxpipeline.com/events/").then(function (response) {
             // Then, we load that into cheerio and save it to $ for a shorthand selector
             const $ = cheerio.load(response.data);
-            //console.log(response.data);
-
+            
             $("div.event-details").each(function (i, element) {
                 var result = {};
                 result.title = $(this)
@@ -40,13 +42,18 @@ module.exports = function (app) {
                 db.Event.create(result)
                     .then(function (dbEvent) {
                         // View the added result in the console
-                        console.log(dbEvent);
+                        //console.log(dbEvent);
                     })
                     .catch(function (err) {
                         // If an error occurred, log it
                         console.log(err);
                     });
+                
+                eventArr.push(result);
             });
+            res.send('scrape complete');
+        }).then(() => {
+          console.log(eventArr[0]);
         });
     });   
 
