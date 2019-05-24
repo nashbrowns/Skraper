@@ -96,17 +96,4 @@ module.exports = function (app) {
       res.send("Scrape Complete");
     });
   });
-
-  app.get("/events", function (req, res) {
-    // Grab every document in the Events collection
-    db.Event.find({})
-      .then(function (dbEvent) {
-        // If we were able to successfully find Events, send them back to the client
-        res.json(dbEvent);
-      })
-      .catch(function (err) {
-        // If an error occurred, send it to the client
-        res.json(err);
-      });
-  })
 }

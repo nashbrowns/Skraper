@@ -35,6 +35,12 @@ const exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+const Handlebars     = require('handlebars');
+const HandlebarsIntl = require('handlebars-intl');
+
+HandlebarsIntl.registerWith(Handlebars);
+
+
 require("./routes/api-routes")(app);
 require("./routes/html-routes")(app);
 

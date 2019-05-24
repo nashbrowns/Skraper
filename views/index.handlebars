@@ -1,2 +1,9 @@
+<h1 class="jumbotron">Skraper</h1>
 
-<h1>Skraper</h1>
+<div class="container">
+    <div class="row">
+        {{#each event}}
+        {{> events/event-card}}
+        {{/each}}
+    </div>
+</div>
