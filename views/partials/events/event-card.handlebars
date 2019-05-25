@@ -3,11 +3,14 @@
     {{#if img includeZero=true }}
       <img class="card-img-top" style="width: 18rem; height: 200px;" src={{img}} alt="Card image cap">
     {{/if}}
+    {{#unless img  }}
+        <img class="card-img-top" style="width: 18rem; height: 200px;" src="/assets/no-image.jpg" alt="Card image cap">
+    {{/unless}}
     <div class="card-body">
       <h5 class="card-title">{{event_date}}</h5>
       <p class="card-text">{{title}}</p>
       <a href={{link}} class="btn btn-primary" target="_blank">Check It Out</a>
-      <a href="/events/{{id}}" class="btn btn-dark" target="_blank" data-id={{id}}>Comment</a>
+      <a href="/events/{{id}}" class="btn btn-dark" data-id={{id}}>Comment</a>
     </div>
   </div>
 </div>

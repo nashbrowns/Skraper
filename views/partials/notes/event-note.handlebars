@@ -1,9 +1,8 @@
-<div class="jumbotron">
+<div class="jumbotron m-2">
     <div class="row">
         <div class="col">
             <p class="lead">{{event_date}}</p>
             <h1 class="display-4">{{title}}</h1>
-            <a class="btn btn-primary btn-lg" href={{link}} role="button" target="_blank">Check it out</a>
         </div>
         <div class="col">
             {{#if img includeZero=true }}
@@ -12,7 +11,9 @@
         </div>
     </div>
     <hr class="my-4">
-
+    <a href="/">
+        <button class="btn btn-info m-1">Events</button>
+    </a>
     <form>
         <div class="form-group">
             <input type="text" name="title" id="titleinput" class="form-control" placeholder="Post Title">
@@ -21,11 +22,12 @@
             <textarea class="form-control" name="body" id="bodyinput" rows="3" placeholder="Post Body"></textarea>
         </div>
         <button id="savenote" type="submit" class="btn btn-primary" data-id={{id}}>Save</button>
+
     </form>
 
     <div id="notes">
         {{#each notes}}
-        <div class="container m-1 rounded border border-dark" style="background-color:rgb(214, 255, 241);">
+        <div class="container m-1 rounded border border-dark" style="background-color:rgb(214, 255, 241); color:rgb(50, 36, 36)">
             <h4 class="display-6 border-bottom border-dark">{{title}}</h4>
             <h6 class="display-8">{{body}}</h6>
         </div>
