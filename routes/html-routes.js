@@ -27,9 +27,9 @@ app.get("/events/:id", function(req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     db.Event.findOne({ _id: req.params.id })
       // ..and populate all of the notes associated with it
-      //.populate("note")
+      .populate("notes")
       .then(function(dbEvent) {
-
+        console.log(dbEvent);
         res.render("../views/comment", dbEvent);
       })
       .catch(function(err) {

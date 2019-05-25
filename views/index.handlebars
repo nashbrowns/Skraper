@@ -2,8 +2,10 @@
 
 <div class="container">
     <div class="row">
-        {{#each event}}
-        {{> events/event-card}}
-        {{/each}}
+        {{#if event includeZero=true }}
+            {{#each event}}
+                {{> events/event-card}}
+            {{/each}}
+        {{/if}}
     </div>
 </div>

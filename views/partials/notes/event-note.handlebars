@@ -23,4 +23,13 @@
         <button id="savenote" type="submit" class="btn btn-primary" data-id={{id}}>Save</button>
     </form>
 
+    <div id="notes">
+        {{#each notes}}
+        <div class="container m-1 rounded border border-dark" style="background-color:rgb(214, 255, 241);">
+            <h4 class="display-6 border-bottom border-dark">{{title}}</h4>
+            <h6 class="display-8">{{body}}</h6>
+        </div>
+        {{/each}}
+    </div>
+
 </div>
