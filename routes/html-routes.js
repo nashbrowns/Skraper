@@ -22,4 +22,20 @@ module.exports = function (app) {
           });
       });
 
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/events/:id", function(req, res) {
+    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    db.Event.findOne({ _id: req.params.id })
+      // ..and populate all of the notes associated with it
+      //.populate("note")
+      .then(function(dbEvent) {
+
+        res.render("../views/comment", dbEvent);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+      });
+  });
+
 }

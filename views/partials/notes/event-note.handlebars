@@ -1,0 +1,26 @@
+<div class="jumbotron">
+    <div class="row">
+        <div class="col">
+            <p class="lead">{{event_date}}</p>
+            <h1 class="display-4">{{title}}</h1>
+            <a class="btn btn-primary btn-lg" href={{link}} role="button" target="_blank">Check it out</a>
+        </div>
+        <div class="col">
+            {{#if img includeZero=true }}
+            <img class="card-img-top" src={{img}} alt="Event Image">
+            {{/if}}
+        </div>
+    </div>
+    <hr class="my-4">
+
+    <form>
+        <div class="form-group">
+            <input type="text" name="title" id="titleinput" class="form-control" placeholder="Post Title">
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" name="body" id="bodyinput" rows="3" placeholder="Post Body"></textarea>
+        </div>
+        <button id="savenote" type="submit" class="btn btn-primary" data-id={{id}}>Save</button>
+    </form>
+
+</div>

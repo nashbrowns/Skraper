@@ -1,13 +1,13 @@
 <div class="col m-2">
   <div class="card" style="width: 18rem;">
     {{#if img includeZero=true }}
-      <img class="card-img-top" src={{img}} alt="Card image cap">
+      <img class="card-img-top" style="width: 18rem; height: 200px;" src={{img}} alt="Card image cap">
     {{/if}}
     <div class="card-body">
       <h5 class="card-title">{{event_date}}</h5>
       <p class="card-text">{{title}}</p>
       <a href={{link}} class="btn btn-primary" target="_blank">Check It Out</a>
-      <a href="#" class="btn btn-dark" target="_blank">Comment</a>
+      <a href="/events/{{id}}" class="btn btn-dark" target="_blank" data-id={{id}}>Comment</a>
     </div>
   </div>
 </div>
