@@ -116,4 +116,16 @@ module.exports = function (app) {
         res.json(err);
       });
   });
+
+    // Route for saving/updating an Article's associated Note
+    app.delete("/notes/:id", function (req, res) {
+      // Create a new note and pass the req.body to the entry
+      db.Note.remove({_id: req.params.id})
+      .then(function (dbEvent){
+        res.send(200);
+      })
+      .catch(function (err){
+        res.json(err);
+      });
+    });
 }

@@ -48,5 +48,24 @@ $(document).ready(function () {
       $("#titleinput").val("");
       $("#bodyinput").val("");
     });
+
+    $(document).on('click', '#deletenote', function(){
+      event.preventDefault();
+      // Grab the id associated with the article from the submit button
+      var thisId = $(this).attr("data-id");
+
+      $.ajax({
+        method: "DELETE",
+        url: "/notes/" + thisId
+      })
+        // With that done
+        .then(function (data) {
+          // Log the response
+          console.log(data);
+
+          location.reload();
+
+        });
+    });
   
 });
