@@ -3,8 +3,6 @@ var cheerio = require("cheerio");
 var moment = require('moment');
 var db = require("../models");
 
-console.log(moment().format('yyyy'));
-
 module.exports = function (app) {
 
   // A GET route for scraping the pdxpipeline website
@@ -49,7 +47,7 @@ module.exports = function (app) {
           //console.log('datePipe: '+result.event_date);
 
         // Create a new Event using the `result` object built from scraping
-        db.Event.create(result)
+        db.Event.updateOne(result,result,{upsert: true})
           .then(function (dbEvent) {
             // View the added result in the console
             console.log(dbEvent);
@@ -102,7 +100,7 @@ module.exports = function (app) {
         console.log('date12: '+result.event_date_month+','+result.event_date_day);
 
         // Create a new Event using the `result` object built from scraping
-        db.Event.create(result)
+        db.Event.updateOne(result,result,{upsert: true})
           .then(function (dbEvent) {
             // View the added result in the console
             console.log(dbEvent);

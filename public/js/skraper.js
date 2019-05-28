@@ -81,9 +81,7 @@ $(document).ready(function () {
     console.log('scraping data...');
 
     $.when(scrape12(), scrapePipe()).done(function () {
-      $.get("/scrape12", function (data) {
-        //console.log(data);
-      });
+      location.reload();
     });
 
   });
