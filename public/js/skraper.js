@@ -1,14 +1,3 @@
-// Grab the articles as a json
-// $.ajax("/scrapePipe", function (data) {
-//   type: "GET"
-//   console.log(data);
-// });
-
-// $.ajax("/scrape12", function (data) {
-//   type: "GET"
-//   console.log(data);
-// });
-
 $(document).ready(function () {
 
   var DateFormats = {
@@ -30,12 +19,10 @@ $(document).ready(function () {
       }
     });
   });
-  
-  // Grab the articles as a json
-  $.ajax("/", function (data) {
-    type: "GET"
 
-    console.log(data);
+  // Grab the articles as a json
+  $.get("/", function (data) {
+    console.log("Welcome to Skraper!");
   });
 
   $(document).on("click", "#savenote", function () {
@@ -91,19 +78,23 @@ $(document).ready(function () {
   $(document).on('click', '#skrape', function () {
     event.preventDefault();
 
-    $.when(scrape12(),scrapePipe()).done(function(){
-      location.reload();
-    });
-    
+    console.log('scraping data...');
+
+    $.when(scrape12(), scrapePipe()).done(function () {
+      $.get("/scrape12", function (data) {
+        //console.log(data);
+      });
     });
 
-  let scrape12 = function(){
+  });
+
+  let scrape12 = function () {
     return $.get("/scrape12", function (data) {
       console.log(data);
     });
   }
 
-  let scrapePipe = function(){
+  let scrapePipe = function () {
     return $.get("/scrapePipe", function (data) {
       console.log(data);
     });
