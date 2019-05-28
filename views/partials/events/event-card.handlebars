@@ -1,13 +1,13 @@
 <div class="col m-2">
   <div class="card" style="width: 18rem;">
-    {{#if img includeZero=true }}
+    {{#if img includeZero=true}}
       <img class="card-img-top" style="width: 18rem; height: 200px;" src={{img}} alt="Card image cap">
     {{/if}}
-    {{#unless img  }}
+    {{#unless img}}
         <img class="card-img-top" style="width: 18rem; height: 200px;" src="/assets/fancy-cushion.png" alt="Card image cap">
     {{/unless}}
     <div class="card-body">
-      <h5 class="card-title">{{event_date}}</h5>
+      <h5 class="card-title">{{event_date_month}}, {{event_date_day}}</h5>
       <p class="card-text">{{title}}</p>
       <a href={{link}} class="btn btn-primary" target="_blank">Check It Out</a>
       <a href="/events/{{id}}" class="btn btn-dark" data-id={{id}}>Comment</a>

@@ -13,9 +13,16 @@ var EventSchema = new Schema({
     unique: true
   },
   event_date: {
+    type: Date,
+    required: true,
+  },
+  event_date_month: {
     type: String,
     required: true,
-    unique: true
+  },
+  event_date_day: {
+    type: String,
+    required: true,
   },
   link: {
     type: String,

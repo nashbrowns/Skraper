@@ -38,9 +38,11 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 const Handlebars     = require('handlebars');
-const HandlebarsIntl = require('handlebars-intl');
+//const HandlebarsIntl = require('handlebars-intl');
+const MomentHandler = require("handlebars.moment");
 
-HandlebarsIntl.registerWith(Handlebars);
+//HandlebarsIntl.registerWith(Handlebars);
+MomentHandler.registerHelpers(Handlebars);
 
 
 require("./routes/api-routes")(app);

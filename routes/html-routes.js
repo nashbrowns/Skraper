@@ -1,13 +1,15 @@
 var axios = require("axios");
 var cheerio = require("cheerio");
-
+var moment = require("moment");
 var db = require("../models");
 
 module.exports = function (app) {
 
     app.get("/", function (req, res) {
         // Grab every document in the Events collection
-        db.Event.find({})
+        let currentDate = moment().format()
+
+        db.Event.find({event_date: {$gte: new Date()}}).sort({event_date: 1})
           .then(function (dbEvent) {
             let events = {
                 event: dbEvent

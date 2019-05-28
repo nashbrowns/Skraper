@@ -1,7 +1,9 @@
 var axios = require("axios");
 var cheerio = require("cheerio");
-
+var moment = require('moment');
 var db = require("../models");
+
+console.log(moment().format('yyyy'));
 
 module.exports = function (app) {
 
@@ -16,17 +18,23 @@ module.exports = function (app) {
       const $ = cheerio.load(response.data);
 
       $("div.event-details").each(function (i, element) {
-        var result = {};
+        let result = {};
         result.title = $(this)
           .children("h2")
           .children("a")
           .attr("data-tooltip");
-        result.event_date = $(this)
+        let date = $(this)
           .children("div.tribe-events-event-meta")
           .children("div.author")
           .children("div.tribe-single-event-details")
           .children("span.tribe-event-date-start")
           .text();
+
+          result.event_date = date.split(" ").slice(0,2).join(" ").replace(/,/g, '');
+          result.event_date = result.event_date+", "+moment().format('YYYY');
+          result.event_date_month = date.split(" ").slice(0,1).join(" ").replace(/,/g, '');
+          result.event_date_day = date.split(" ").slice(1,2).join(" ").replace(/,/g, '');
+
         result.link = $(this)
           .children("h2")
           .children("a")
@@ -38,11 +46,13 @@ module.exports = function (app) {
           .children("img")
           .attr("src");
 
+          //console.log('datePipe: '+result.event_date);
+
         // Create a new Event using the `result` object built from scraping
         db.Event.create(result)
           .then(function (dbEvent) {
             // View the added result in the console
-            //console.log(dbEvent);
+            console.log(dbEvent);
           })
           .catch(function (err) {
             // If an error occurred, log it
@@ -58,6 +68,9 @@ module.exports = function (app) {
 
   // A GET route for scraping the events12 website
   app.get("/scrape12", function (req, res) {
+
+    let eventArr = [];
+
     // First, we grab the body of the html with axios
     axios.get("https://www.events12.com/portland/").then(function (response) {
       // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -66,19 +79,27 @@ module.exports = function (app) {
       // Now, we grab every h2 within an Event tag, and do the following:
       $("article").each(function (i, element) {
         // Save an empty result object
-        var result = {};
+        let result = {};
 
         // Add the text and href of every link, and save them as properties of the result object
         result.title = $(this)
           .children("h3")
           .text();
-        result.event_date = $(this)
+
+        let date = $(this)
           .children("div.date")
           .text();
+        
+        result.event_date = date.split(" ").slice(0,2).join(" ").replace(/,/g, '');
+        result.event_date = result.event_date+", "+moment().format('YYYY');
+        result.event_date_month = date.split(" ").slice(0,1).join(" ").replace(/,/g, '');
+        result.event_date_day = date.split(" ").slice(1,2).join(" ").replace(/,/g, '');
+
         result.link = $(this)
           .children("a")
           .attr("href");
 
+        console.log('date12: '+result.event_date_month+','+result.event_date_day);
 
         // Create a new Event using the `result` object built from scraping
         db.Event.create(result)
@@ -90,10 +111,14 @@ module.exports = function (app) {
             // If an error occurred, log it
             console.log(err);
           });
+
+          eventArr.push(result);
       });
 
       // Send a message to the client
-      res.send("Scrape Complete");
+      //res.send("Scrape Complete");
+    }).then( () => {
+      res.json(eventArr);
     });
   });
 
