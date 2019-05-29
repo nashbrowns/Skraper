@@ -76,12 +76,16 @@ $(document).ready(function () {
   });
 
   $(document).on('click', '#skrape', function () {
+
     event.preventDefault();
+
+    $('#loadIcon').append('<i class="fa fa-cog fa-spin ml-1" style="font-size:24px; color:white;"></i>');
 
     console.log('scraping data...');
 
     $.when(scrape12(), scrapePipe(), scrapeMercury()).done(function () {
       location.reload();
+      $('#loadIcon').empty();
     });
 
   });
