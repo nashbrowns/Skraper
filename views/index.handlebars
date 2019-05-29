@@ -10,10 +10,12 @@
 
 <div class="container">
   <div class="row">
+    <div class = "cards">
     {{#if event includeZero=true }}
     {{#each event}}
     {{> events/event-card}}
     {{/each}}
     {{/if}}
+    </div>
   </div>
 </div>
