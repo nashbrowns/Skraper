@@ -80,7 +80,7 @@ $(document).ready(function () {
 
     console.log('scraping data...');
 
-    $.when(scrape12(), scrapePipe()).done(function () {
+    $.when(scrape12(), scrapePipe(), scrapeMercury()).done(function () {
       location.reload();
     });
 
@@ -94,6 +94,12 @@ $(document).ready(function () {
 
   let scrapePipe = function () {
     return $.get("/scrapePipe", function (data) {
+      console.log(data);
+    });
+  }
+
+  let scrapeMercury = function () {
+    return $.get("/scrapeMercury", function (data) {
       console.log(data);
     });
   }

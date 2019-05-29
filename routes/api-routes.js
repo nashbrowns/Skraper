@@ -120,6 +120,79 @@ module.exports = function (app) {
     });
   });
 
+  // A GET route for scraping the events12 website
+  app.get("/scrapeMercury", function (req, res) {
+
+    let eventArr = [];
+
+    // First, we grab the body of the html with axios
+    axios.get("https://www.portlandmercury.com/events").then(function (response) {
+      // Then, we load that into cheerio and save it to $ for a shorthand selector
+      const $ = cheerio.load(response.data);
+      //console.log(response.data);
+
+      // Now, we grab every h2 within an Event tag, and do the following:
+      $("div[class='event-row row']").each(function (i, element) {
+        // Save an empty result object
+        let result = {};
+
+        //console.log(element);
+        // Add the text and href of every link, and save them as properties of the result object
+        result.title = $(this)
+          .children("div.event-row-title-col")
+          .children("h3.event-row-title")
+          .children("a")
+          .text()
+          .replace('/n','')
+          .trim();
+
+        let date = $(this)
+          .children("div.event-row-title-col")
+          .children("p.event-row-date")
+          .text()
+          .replace('/n','')
+          .trim();
+        
+        result.event_date = date.split(" ").slice(1,3).join(" ").replace(/,/g, '');
+        result.event_date = result.event_date+", "+moment().format('YYYY');
+        result.event_date_month = date.split(" ").slice(1,2).join(" ").replace(/,/g, '');
+        result.event_date_day = date.split(" ").slice(2,3).join(" ").replace(/,/g, '');
+
+         let rel_link = $(this)
+          .children("div.event-row-title-col")
+          .children("h3.event-row-title")
+          .children("a")
+          .attr("href");
+        
+        result.link = "https://www.portlandmercury.com"+rel_link;
+
+        result.img = $(this)
+          .children("div.event-row-image-col")
+          .children("a.event-row-image")
+          .children("img")
+          .attr('src');
+
+        // // Create a new Event using the `result` object built from scraping
+        db.Event.updateOne(result,result,{upsert: true})
+          .then(function (dbEvent) {
+            // View the added result in the console
+            console.log(dbEvent);
+          })
+          .catch(function (err) {
+            // If an error occurred, log it
+            console.log(err);
+          });
+
+          eventArr.push(result);
+      });
+
+      // Send a message to the client
+      //res.send("Scrape Complete");
+    }).then( () => {
+      res.json(eventArr);
+    });
+  });
+
   // Route for saving/updating an Article's associated Note
   app.post("/notes/:id", function (req, res) {
     // Create a new note and pass the req.body to the entry
